@@ -83,10 +83,24 @@ WHERE id%2!=0 AND description <>'boring' #不等于用文字是<>
 ORDER BY rating DESC
 
 #627 swap salary
-UPDATE salary SET sex= CHAR(ASCII('f')^ASCII('m')^ASCII(sex));
+##简单的手法：
+UPDATE salary
+ SET sex  = (CASE WHEN sex = 'm'
+ THEN 'f'
+ ELSE 'm'
+ END)
+##最好的解法：
+UPDATE salary 
+SET sex= CHAR(ASCII('f')^ASCII('m')^ASCII(sex));
 UPDATE salary SET sex= CHAR(ASCII('f')+ASCII('m')-ASCII(sex));
 #没懂？？？？？？
-
+UPDATE salary
+SET sex = CHAR(ASCII(sex) ^ 11)
+                                                        
+#更新信息/替换
+UPDATE table_name
+SET column1 = value1, column2 = value2...., columnN = valueN
+WHERE [condition];
 
 IFNULL(expr1,expr2)
 #如果 expr1 不是 NULL，IFNULL() 返回 expr1，否则它返回 expr2。IFNULL() 返回一个数字或字符串值，取决于它被使用的上下文环境
