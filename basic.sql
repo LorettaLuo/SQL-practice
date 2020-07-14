@@ -68,6 +68,25 @@ END AS 'triangle'
 FROM triangle 
 #CASE WHEN的例子，要记得重命名一个column用end as
 
+#619 biggest single number 
+SELECT
+(SELECT num 
+FROM number
+GROUP BY num
+HAVING COUNT(*)=1
+ORDER BY num DESC LIMIT 1) AS num
+
+#620 not boring movie
+SELECT * #选择全部可以用*
+FROM cinema
+WHERE id%2!=0 AND description <>'boring' #不等于用文字是<>
+ORDER BY rating DESC
+
+#627 swap salary
+UPDATE salary SET sex= CHAR(ASCII('f')^ASCII('m')^ASCII(sex));
+UPDATE salary SET sex= CHAR(ASCII('f')+ASCII('m')-ASCII(sex));
+#没懂？？？？？？
+
 
 IFNULL(expr1,expr2)
 #如果 expr1 不是 NULL，IFNULL() 返回 expr1，否则它返回 expr2。IFNULL() 返回一个数字或字符串值，取决于它被使用的上下文环境
