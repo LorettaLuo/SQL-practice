@@ -67,3 +67,70 @@ SELECT name, continent
 FROM world x
 WHERE x.population >= ALL(SELECT y.population*3 FROM world y
    WHERE x.continent = y.continent AND x.name !=y.name AND population>0)
+
+
+
+
+
+
+
+
+
+# More JOIN operations
+#06) Obtain the cast list for 'Casablanca'.
+SELECT name
+FROM actor
+JOIN casting ON (id=actorid)
+WHERE movieid=27
+
+#07) Obtain the cast list for the film 'Alien'
+SELECT a.name
+FROM actor a
+JOIN casting c ON a.id=c.actorid
+JOIN movie m ON c.movieid=m.id
+WHERE m.title = 'Alien'
+
+#08) List the films in which 'Harrison Ford' has appeared
+SELECT m.title
+FROM movie m
+JOIN casting c ON c.movieid=m.id
+JOIN actor a ON a.id=c.actorid
+WHERE name = 'Harrison Ford'
+
+#09) List the films where 'Harrison Ford' has appeared - but not in the starring role.
+SELECT m.title
+FROM movie m
+JOIN casting c ON c.movieid=m.id
+JOIN actor a ON a.id=c.actorid
+WHERE name = 'Harrison Ford' AND c.ord<>1
+
+#10) List the films together with the leading star for all 1962 films.
+SELECT m.title, a.name
+FROM movie m
+JOIN casting c ON c.movieid=m.id
+JOIN actor a ON a.id=c.actorid
+WHERE m.yr=1962 AND c.ord=1
+
+#11) Which were the busiest years for 'Rock Hudson', show the year and the number of movies he made each year for any year in which he made more than 2 movies.
+SELECT yr,COUNT(title) FROM
+  movie JOIN casting ON movie.id=movieid
+        JOIN actor   ON actorid=actor.id
+WHERE name='Rock Hudson'
+GROUP BY yr
+HAVING COUNT(title) > 2
+
+#12) List the film title and the leading actor for all of the films 'Julie Andrews' played in.
+SELECT m.title, a.name FROM movie m
+JOIN casting c ON c.movieid=m.id
+JOIN actor a ON a.id=c.actorid
+WHERE a.name IN (
+  SELECT a.name FROM actor
+  WHERE name='Julie Andrews')
+  
+  
+
+
+
+
+
+
