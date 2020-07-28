@@ -16,3 +16,9 @@ WHERE population >= ALL(SELECT population
                         WHERE population>0)
                         
 5. SELECT TOP 1 * <=> SELECT * ...LIMIT 1
+
+6.COALESCE 用法：按顺序选择不是NULL的那个 
+  COALESCE(x,y,z) = x if x is not NULL
+  COALESCE(x,y,z) = y if x is NULL and y is not NULL
+  COALESCE(x,y,z) = z if x and y are NULL but z is not NULL
+  COALESCE(x,y,z) = NULL if x and y and z are all NULL
