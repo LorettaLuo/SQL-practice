@@ -22,3 +22,6 @@ WHERE population >= ALL(SELECT population
   COALESCE(x,y,z) = y if x is NULL and y is not NULL
   COALESCE(x,y,z) = z if x and y are NULL but z is not NULL
   COALESCE(x,y,z) = NULL if x and y and z are all NULL
+
+7. 显示某一个因素的排序
+RANK() OVER (ORDER BY votes DESC) as posn
