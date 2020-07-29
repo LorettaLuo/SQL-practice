@@ -304,6 +304,45 @@ WHERE stopa.name='Craiglockhart'
 
 
 
+#Numeric Examples
+#6) Show the percentage of students who A_STRONGLY_AGREE to question 22 for the subject '(8) Computer Science' show the same figure for the subject '(H) Creative Arts and Design'.
+SELECT subject, 
+ROUND(SUM(response*A_STRONGLY_AGREE)/SUM(response),0)
+  FROM nss
+ WHERE question='Q22'
+   AND subject='(H) Creative Arts and Design'
+   OR subject='(8) Computer Science'
+GROUP BY subject
+  
+#7) Show the average scores for question 'Q22' for each institution that include 'Manchester' in the name.
+SELECT institution, ROUND(SUM(response*score)/SUM(response),0)
+FROM nss
+WHERE question='Q22'
+AND (institution LIKE '%Manchester%')
+GROUP BY institution
+ORDER BY institution
+
+#8) Show the institution, the total sample size and the number of computing students for institutions in Manchester for 'Q01'.
+SELECT institution,SUM(sample), 
+  (SELECT sample FROM nss y
+   WHERE subject='(8) Computer Science'
+   AND x.institution = y.institution
+   AND question='Q01') AS comp
+FROM nss x
+WHERE question='Q01'
+AND (institution LIKE '%Manchester%')
+GROUP BY institution
+
+
+
+
+
+
+
+#Window function
+#1) Show the lastName, party and votes for the constituency 'S14000024' in 2017.
+
+
 
 
 
