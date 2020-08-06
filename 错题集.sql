@@ -25,3 +25,11 @@ WHERE population >= ALL(SELECT population
 
 7. 显示某一个因素的排序
 RANK() OVER (ORDER BY votes DESC) as posn
+
+8. 
+DAY('2017/08/13 09:08') AS DayOfMonth 显示日
+WEEKDAY(date)=0表示周一，1表示周二....
+
+9. LAG的用法
+LAG (salary,1) OVER (PARTITION BY dept_id ORDER BY salary) AS lower_salary
+把每个salary往后挪一个人，第一个人显示NULL，第二个人显示第一个人的salary,按照dept_id的大类来分
