@@ -425,4 +425,20 @@ AND MONTH(whn) = 3
 ORDER BY whn
                                       
 #4) Show the number of new cases in Italy for each week - show Monday only.
-              
+SELECT name, DATE_FORMAT(whn,'%Y-%m-%d'), confirmed-(LAG(confirmed, 1) OVER (PARTITION BY name ORDER BY whn))
+ FROM covid
+WHERE name = 'Italy'
+AND WEEKDAY(whn) = 0
+ORDER BY whn
+                                                                             
+#5) You can JOIN a table using DATE arithmetic. This will give different results if data is missing.
+# Show the number of new cases in Italy for each week - show Monday only.
+SELECT tw.name, DATE_FORMAT(tw.whn,'%Y-%m-%d'), 
+ tw.confirmed-lw.confirmed
+ FROM covid tw LEFT JOIN covid lw ON 
+  DATE_ADD(lw.whn, INTERVAL 1 WEEK) = tw.whn
+   AND tw.name=lw.name
+WHERE tw.name = 'Italy' AND WEEKDAY(tw.whn) = 0
+ORDER BY tw.whn
+
+#
