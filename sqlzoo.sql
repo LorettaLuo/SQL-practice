@@ -441,4 +441,28 @@ SELECT tw.name, DATE_FORMAT(tw.whn,'%Y-%m-%d'),
 WHERE tw.name = 'Italy' AND WEEKDAY(tw.whn) = 0
 ORDER BY tw.whn
 
-#
+#6) Include the ranking for the number of deaths in the table.
+??????????????不会做
+              
+             
+#7) Show the infect rate ranking for each country. Only include countries with a population of at least 10 million.
+SELECT 
+   world.name,
+   ROUND(100000*confirmed/population,0),
+   RANK() OVER (ORDER BY confirmed/population) rank
+  FROM covid JOIN world ON covid.name=world.name
+WHERE whn = '2020-04-20' AND population >= 10000000
+ORDER BY population DESC
+              
+#8) For each country that has had at last 1000 new cases in a single day, show the date of the peak number of new cases.
+????????????错了
+SELECT name,date,MAX(confirmed-lag) AS PeakNew 
+FROM(
+    SELECT name, DATE_FORMAT(whn,'%Y-%m-%d') date, confirmed,
+    LAG(confirmed, 1) OVER (PARTITION BY name ORDER BY whn) lag  
+    FROM covid 
+    ORDER BY  confirmed
+) temp
+GROUP BY name
+HAVING PeakNew>=1000
+ORDER BY PeakNew DESC;
